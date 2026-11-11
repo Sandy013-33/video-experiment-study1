@@ -1,104 +1,307 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="noindex, nofollow">
-  <title>Video Study</title>
+  <meta name="robots" content="noindex,nofollow">
+  <title>Research Video Study</title>
   <style>
-    :root{font-family:Arial,Helvetica,sans-serif;color:#1e293b;background:#f5f7fb}
-    *{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:24px}
-    main{max-width:800px;width:100%;background:#fff;border-radius:16px;padding:32px;box-shadow:0 8px 35px #17223b12}
-    h1{font-size:1.65rem;margin-top:0}p{line-height:1.6}video{display:block;width:100%;max-height:65vh;background:#000;border-radius:9px;margin:18px 0}
-    button,a.action{display:inline-block;background:#1d4ed8;color:white;border:0;padding:13px 20px;border-radius:8px;font-size:1rem;text-decoration:none;cursor:pointer}
-    button:disabled{opacity:.5;cursor:not-allowed}.small{font-size:.9rem;color:#64748b}#status{font-weight:600}#playerSection{display:none}
+    :root { color-scheme: light; font-family: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; background:#f5f7fb; color:#162333; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; display:grid; place-items:center; padding:26px 14px; }
+    main { width:min(100%,760px); border:1px solid #e2e8f1; border-radius:18px; background:#fff; padding:clamp(22px,4vw,42px); box-shadow:0 12px 36px rgba(25,43,68,.07); }
+    .eyebrow { letter-spacing:.1em; text-transform:uppercase; font-size:.75rem; color:#64748b; font-weight:700; }
+    h1 { margin:10px 0 12px; font-size:clamp(1.6rem,3.5vw,2.2rem); letter-spacing:-.03em; }
+    h2 { margin:8px 0 12px; font-size:1.45rem; }
+    p { line-height:1.65; color:#405066; }
+    .muted { color:#64748b; font-size:.92rem; }
+    .notice { background:#f4f8fe; border:1px solid #dae8fc; padding:14px 16px; border-radius:10px; margin:16px 0; line-height:1.6; }
+    .check { display:flex; gap:10px; align-items:flex-start; padding:12px 0; line-height:1.55; }
+    .check input { margin-top:5px; transform:scale(1.2); }
+    .actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:20px; }
+    button { font:inherit; font-weight:650; padding:12px 20px; border-radius:9px; cursor:pointer; border:1px solid #c8d4e2; background:#fff; color:#273b53; }
+    button.primary { background:#195da4; color:white; border-color:#195da4; }
+    button:disabled { opacity:.45; cursor:not-allowed; }
+    button:focus-visible, input:focus-visible { outline:3px solid #63a2ea; outline-offset:3px; }
+    .hidden { display:none !important; }
+    .player-frame { position:relative; aspect-ratio:16/9; background:#0f172a; border-radius:12px; overflow:hidden; margin:18px 0 12px; }
+    #player, #player iframe { width:100%; height:100%; }
+    .progress-track { height:8px; background:#e4ebf4; border-radius:100px; overflow:hidden; margin-top:14px; }
+    #progress { height:100%; background:#195da4; width:0%; transition:width .2s linear; }
+    #status { min-height:1.5em; }
+    .small-note { padding-top:14px; border-top:1px solid #edf1f6; font-size:.86rem; }
   </style>
 </head>
 <body>
-  <main>
-    <section id="intro">
-      <h1>Video Study</h1>
-      <p>You will watch one short product video and then complete a questionnaire. Please watch the entire video before proceeding.</p>
-      <p>Please make sure your sound is on and that you are in a place where you can focus.</p>
-      <button id="startBtn" type="button">Start study</button>
-      <p class="small">Please do not refresh the page once you begin.</p>
-    </section>
-    <section id="playerSection">
-      <h1>Please watch the following video</h1>
-      <p>Please watch the video until it ends. You will then be redirected to the questionnaire.</p>
-      <video id="stimulus" playsinline preload="metadata" controlsList="nodownload noplaybackrate" disablePictureInPicture></video>
-      <p id="status" role="status">Preparing video…</p>
-      <button id="playBtn" type="button">Play video</button>
-      <p class="small">If playback does not start, click “Play video.” The questionnaire opens automatically after playback finishes.</p>
-      <p id="error" class="small" role="alert"></p>
-      <a id="surveyFallback" class="action" style="display:none" href="#">Open questionnaire</a>
-    </section>
-  </main>
-  <script>
-    // REPLACE ALL eight example paths/URLs before publishing your study.
-    // For Google Forms, use four pre-filled links from the SAME form, one per condition.
-    const CONDITIONS = [
-      {id:'A', video:'videos/tv-persuasion.mp4',   survey:'PASTE_FORM_A_PREFILLED_URL_HERE'},
-      {id:'B', video:'videos/tv-dissuasion.mp4',   survey:'PASTE_FORM_B_PREFILLED_URL_HERE'},
-      {id:'C', video:'videos/chair-persuasion.mp4',survey:'PASTE_FORM_C_PREFILLED_URL_HERE'},
-      {id:'D', video:'videos/chair-dissuasion.mp4',survey:'PASTE_FORM_D_PREFILLED_URL_HERE'}
-    ];
-    const STORAGE_KEY='video-study-condition-v1';
-    const intro=document.getElementById('intro');
-    const playerSection=document.getElementById('playerSection');
-    const video=document.getElementById('stimulus');
-    const status=document.getElementById('status');
-    const error=document.getElementById('error');
-    const playBtn=document.getElementById('playBtn');
-    const fallback=document.getElementById('surveyFallback');
-    let condition=null, finished=false;
+<main>
+  <div class="eyebrow">Academic research</div>
+  <section id="setup" class="hidden" aria-live="polite">
+    <h1>Study setup is not complete</h1>
+    <p>This study website has not been fully configured. Please contact the researcher.</p>
+    <p class="muted">Researcher: edit the four YouTube links and the four Google Forms links in <code>CONDITIONS</code> before sharing this site.</p>
+  </section>
 
-    function selectCondition(){
-      // The saved assignment survives refreshes in the same tab/session.
-      const saved=sessionStorage.getItem(STORAGE_KEY);
-      const existing=CONDITIONS.find(x=>x.id===saved);
-      if(existing) return existing;
-      const random=new Uint32Array(1);
-      crypto.getRandomValues(random);
-      const chosen=CONDITIONS[Math.floor(random[0]/(2**32)*CONDITIONS.length)];
-      sessionStorage.setItem(STORAGE_KEY,chosen.id);
-      return chosen;
+  <section id="consent" class="hidden">
+    <h1>Invitation to participate</h1>
+    <p>You are invited to participate in an academic study about short product-related videos. If you agree, you will be shown one video and then directed to a questionnaire. You may stop participating at any time.</p>
+    <div class="notice"><strong>Researcher action required:</strong> Replace this brief introduction with your institution-approved information and informed-consent wording, including study purpose, duration, risks, data use, contact details, and withdrawal information. Do so <em>before</em> recruiting participants.</div>
+    <label class="check"><input id="agree" type="checkbox"><span>I have read the study information and voluntarily agree to participate.</span></label>
+    <div class="actions">
+      <button id="begin" class="primary" disabled>Agree and continue</button>
+      <button id="decline">I do not agree</button>
+    </div>
+  </section>
+
+  <section id="declined" class="hidden">
+    <h1>Thank you</h1>
+    <p>You have chosen not to take part. No questionnaire will be shown. You can close this page and return your study on the recruitment platform, if applicable.</p>
+  </section>
+
+  <section id="study" class="hidden">
+    <h1>Please watch the entire video</h1>
+    <p>Watch the following video from beginning to end before answering the questionnaire. The questionnaire will open automatically after verified continuous playback. If you pause, you can resume where you left off. Please keep this page visible while watching.</p>
+    <div class="player-frame"><div id="player"></div></div>
+    <div class="progress-track" role="progressbar" aria-label="Watched video progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progressTrack"><div id="progress"></div></div>
+    <p id="status" aria-live="polite">Loading the video player…</p>
+    <div class="actions">
+      <button id="play" class="primary" disabled>Play / Resume video</button>
+      <button id="restart" disabled>Restart video</button>
+    </div>
+    <p class="small-note muted">To protect the study design, fast-forwarding and skipping are not permitted. Video playback may be interrupted by YouTube's own interface, advertising, privacy, or device restrictions.</p>
+  </section>
+
+  <section id="error" class="hidden" aria-live="polite">
+    <h1>We could not load the video</h1>
+    <p id="errorText">Check your internet connection and try again.</p>
+    <button id="retry" class="primary">Reload the study</button>
+  </section>
+
+  <section id="done" class="hidden">
+    <h1>Video finished</h1>
+    <p>Opening the questionnaire now…</p>
+  </section>
+</main>
+<script>
+'use strict';
+
+// ============================================================
+// 研究者只需要修改下面 8 個網址（四部 YouTube + 四份 Google 表單）
+// YouTube 可貼整條 https://youtu.be/... 或 youtube.com/watch?v=...
+// Google 表單要貼「傳送給受測者填寫」的連結，而非編輯連結。
+// ============================================================
+const CONDITIONS = [
+  { id: 'A', video: 'PASTE_YOUTUBE_URL_A', form: 'PASTE_GOOGLE_FORM_URL_A' }, // Persuasion × TV
+  { id: 'B', video: 'PASTE_YOUTUBE_URL_B', form: 'PASTE_GOOGLE_FORM_URL_B' }, // Dissuasion × TV
+  { id: 'C', video: 'PASTE_YOUTUBE_URL_C', form: 'PASTE_GOOGLE_FORM_URL_C' }, // Persuasion × Massage Chair
+  { id: 'D', video: 'PASTE_YOUTUBE_URL_D', form: 'PASTE_GOOGLE_FORM_URL_D' }  // Dissuasion × Massage Chair
+];
+
+// 正式招募必須設為 false。測試時可改 true，並在網址後加 ?test=A 等。
+const TEST_MODE = false;
+
+// ============================================================
+// 以下是網站功能程式碼；一般不需要改動。
+// ============================================================
+const $ = id => document.getElementById(id);
+const sections = ['setup','consent','declined','study','error','done'];
+function show(id) { sections.forEach(s => $(s).classList.toggle('hidden', s !== id)); }
+
+function youtubeId(raw) {
+  if (/^[A-Za-z0-9_-]{11}$/.test(raw)) return raw;
+  try {
+    const url = new URL(raw);
+    const host = url.hostname.toLowerCase();
+    if (host === 'youtu.be' || host === 'www.youtu.be') return url.pathname.split('/')[1] || '';
+    if (host === 'youtube.com' || host === 'www.youtube.com' || host === 'm.youtube.com') {
+      if (url.searchParams.has('v')) return url.searchParams.get('v') || '';
+      return url.pathname.match(/^\/(embed|shorts|live)\/([A-Za-z0-9_-]{11})/)?.[2] || '';
     }
-    function validConfig(c){return c&&c.video&&!c.video.includes('PASTE_')&&c.survey.startsWith('https://')&&!c.survey.includes('PASTE_');}
-    function finish(){
-      if(finished) return;
-      finished=true;
-      status.textContent='Video completed. Opening questionnaire…';
-      playBtn.style.display='none';
-      fallback.href=condition.survey;
-      fallback.style.display='inline-block';
-      window.location.assign(condition.survey);
-    }
-    document.getElementById('startBtn').addEventListener('click',async()=>{
-      condition=selectCondition();
-      intro.style.display='none'; playerSection.style.display='block';
-      if(!validConfig(condition)){
-        status.textContent='Setup incomplete';
-        error.textContent='Researcher: configure the four video files and four valid survey URLs in index.html first.';
-        playBtn.disabled=true;
-        return;
+  } catch (_) { /* invalid URL */ }
+  return '';
+}
+function isValidForm(raw) {
+  try {
+    const u = new URL(raw);
+    if (u.protocol !== 'https:') return false;
+    if (u.hostname === 'forms.gle') return u.pathname.length > 1;
+    return /(^|\.)google\.com$/.test(u.hostname) && /^\/forms\/d\/(?:e\/)?[^/]+\/viewform$/.test(u.pathname);
+  } catch (_) { return false; }
+}
+function configured() { return CONDITIONS.length === 4 && CONDITIONS.every(c => /^[A-D]$/.test(c.id) && /^[A-Za-z0-9_-]{11}$/.test(youtubeId(c.video)) && isValidForm(c.form)); }
+function randomIndex() {
+  if (window.crypto && crypto.getRandomValues) {
+    const a = new Uint32Array(1); crypto.getRandomValues(a); return a[0] % 4;
+  }
+  return Math.floor(Math.random() * 4);
+}
+function chooseCondition() {
+  if (TEST_MODE) {
+    const forced = new URLSearchParams(location.search).get('test')?.toUpperCase();
+    const match = CONDITIONS.find(c => c.id === forced);
+    if (match) return match;
+  }
+  // Reopening in the same browser session keeps the same assignment.
+  const key = 'video-study-assignment-v3';
+  try {
+    const prev = sessionStorage.getItem(key);
+    const match = CONDITIONS.find(c => c.id === prev);
+    if (match) return match;
+  } catch (_) { /* storage disabled */ }
+  const selected = CONDITIONS[randomIndex()];
+  try { sessionStorage.setItem(key, selected.id); } catch (_) { /* storage disabled */ }
+  return selected;
+}
+
+let condition = null;
+let player = null;
+let ticker = null;
+let lastCheckedAt = 0;
+let verifiedTime = 0;
+let lastVideoDuration = 0;
+let videoReady = false;
+let finished = false;
+let correctingSeek = false;
+
+function updateProgress() {
+  const fraction = lastVideoDuration ? Math.max(0, Math.min(1, verifiedTime / lastVideoDuration)) : 0;
+  const pct = Math.floor(100 * fraction);
+  $('progress').style.width = `${pct}%`;
+  $('progressTrack').setAttribute('aria-valuenow', String(pct));
+}
+function resetVerification() {
+  verifiedTime = 0; lastCheckedAt = performance.now(); finished = false;
+  updateProgress();
+}
+function getDuration() {
+  if (!player || typeof player.getDuration !== 'function') return 0;
+  const d = Number(player.getDuration()) || 0;
+  if (d > 0) lastVideoDuration = d;
+  return lastVideoDuration;
+}
+function seekBack() {
+  if (!player || correctingSeek) return;
+  correctingSeek = true;
+  try { player.seekTo(Math.max(0, verifiedTime - .12), true); }
+  catch (_) { /* player may still be initializing */ }
+  $('status').textContent = 'Skipping is not available. Please continue from the last watched point.';
+  setTimeout(() => { correctingSeek = false; lastCheckedAt = performance.now(); }, 350);
+}
+function checkPlayback() {
+  if (finished || !player || !videoReady || correctingSeek) return;
+  try {
+    const now = performance.now();
+    const elapsed = Math.max(0, (now - lastCheckedAt) / 1000);
+    lastCheckedAt = now;
+    if (player.getPlayerState() !== YT.PlayerState.PLAYING) return;
+    const current = Number(player.getCurrentTime()) || 0;
+    getDuration();
+    // Allow a small margin for network and event timing; reject big forward jumps.
+    const allowedAdvance = Math.min(2.25, elapsed + .85);
+    if (current > verifiedTime + allowedAdvance) { seekBack(); return; }
+    if (current < verifiedTime - .7) { seekBack(); return; }
+    if (current > verifiedTime) { verifiedTime = current; updateProgress(); }
+  } catch (_) { /* brief player initialization glitches */ }
+}
+function openForm() {
+  if (finished) return;
+  finished = true;
+  clearInterval(ticker);
+  show('done');
+  // Nothing in a client-only webpage can securely hide a public Google Forms URL.
+  window.location.assign(condition.form);
+}
+function onEnd() {
+  getDuration();
+  // END alone is insufficient; the video timeline must have progressed continuously.
+  if (lastVideoDuration > 0 && verifiedTime >= lastVideoDuration - 1.6) {
+    openForm();
+  } else {
+    $('status').textContent = 'The complete viewing requirement was not confirmed. Please restart the video.';
+    $('play').disabled = false;
+    $('restart').disabled = false;
+  }
+}
+function videoError(message) {
+  clearInterval(ticker);
+  $('errorText').textContent = message;
+  show('error');
+}
+function onPlayerReady(evt) {
+  player = evt.target;
+  videoReady = true;
+  $('play').disabled = false;
+  $('restart').disabled = false;
+  $('status').textContent = 'The video is ready. Click “Play / Resume video” to begin.';
+  getDuration();
+}
+function onPlayerStateChange(evt) {
+  if (evt.data === YT.PlayerState.PLAYING) {
+    $('status').textContent = 'Playing. The questionnaire will open after the entire video.';
+    lastCheckedAt = performance.now();
+    if (!ticker) ticker = setInterval(checkPlayback, 250);
+  } else if (evt.data === YT.PlayerState.PAUSED) {
+    checkPlayback();
+    $('status').textContent = 'Paused. Use “Play / Resume video” when you are ready.';
+  } else if (evt.data === YT.PlayerState.ENDED) {
+    checkPlayback();
+    onEnd();
+  }
+}
+function loadPlayer() {
+  show('study');
+  $('status').textContent = 'Loading the video player…';
+  resetVerification();
+  const create = () => {
+    if (!window.YT || !YT.Player) return videoError('YouTube player could not be initialized. Please reload the page.');
+    player = new YT.Player('player', {
+      videoId: youtubeId(condition.video),
+      playerVars: { controls: 0, disablekb: 1, playsinline: 1, rel: 0, fs: 0, iv_load_policy: 3, origin: location.origin },
+      events: {
+        onReady: onPlayerReady,
+        onStateChange: onPlayerStateChange,
+        onError: () => videoError('This video cannot be played here. Please contact the researcher.'),
+        onAutoplayBlocked: () => { $('status').textContent = 'Please press “Play / Resume video” to start.'; }
       }
-      video.src=condition.video;
-      video.controls=false; // intentionally minimal controls; cannot prevent all bypasses
-      status.textContent='Please watch the full video.';
-      try { await video.play(); playBtn.style.display='none'; }
-      catch { status.textContent='Click Play video to begin.'; }
     });
-    playBtn.addEventListener('click',async()=>{
-      try{await video.play();playBtn.style.display='none';status.textContent='Please watch the full video.';}
-      catch{error.textContent='Video playback failed. Check your browser or ask the researcher for help.';}
-    });
-    video.addEventListener('ended',finish);
-    video.addEventListener('error',()=>{status.textContent='Unable to load video';error.textContent='Please contact the researcher. Do not submit a questionnaire without watching the video.';playBtn.style.display='none';});
-    // Prevent accidental skipped segments via ordinary seeking, though client-side controls are not tamper-proof.
-    let furthest=0;
-    video.addEventListener('timeupdate',()=>{if(!video.seeking)furthest=Math.max(furthest,video.currentTime);});
-    video.addEventListener('seeking',()=>{if(video.currentTime>furthest+0.5)video.currentTime=furthest;});
-  </script>
+  };
+  if (window.YT && YT.Player) create();
+  else {
+    window.onYouTubeIframeAPIReady = create;
+    if (!document.querySelector('script[data-youtube-api]')) {
+      const script = document.createElement('script');
+      script.src = 'https://www.youtube.com/iframe_api';
+      script.dataset.youtubeApi = '1';
+      script.onerror = () => videoError('YouTube could not load. Please check your connection or browser restrictions.');
+      document.head.appendChild(script);
+    }
+  }
+}
+$('agree').addEventListener('change', e => { $('begin').disabled = !e.target.checked; });
+$('begin').addEventListener('click', () => {
+  if (!$('agree').checked) return;
+  condition = chooseCondition();
+  loadPlayer();
+});
+$('decline').addEventListener('click', () => show('declined'));
+$('play').addEventListener('click', () => {
+  if (!videoReady || !player || finished) return;
+  lastCheckedAt = performance.now();
+  player.playVideo();
+});
+$('restart').addEventListener('click', () => {
+  if (!videoReady || !player || finished) return;
+  resetVerification();
+  player.seekTo(0, true);
+  player.playVideo();
+  $('status').textContent = 'Video restarted. Please watch all the way through.';
+});
+$('retry').addEventListener('click', () => location.reload());
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden && player && videoReady && !finished) {
+    try { player.pauseVideo(); } catch (_) {}
+  }
+});
+show(configured() ? 'consent' : 'setup');
+</script>
 </body>
 </html>
