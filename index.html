@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Video Study</title>
+  <style>
+    :root{font-family:Arial,Helvetica,sans-serif;color:#1e293b;background:#f5f7fb}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:24px}
+    main{max-width:800px;width:100%;background:#fff;border-radius:16px;padding:32px;box-shadow:0 8px 35px #17223b12}
+    h1{font-size:1.65rem;margin-top:0}p{line-height:1.6}video{display:block;width:100%;max-height:65vh;background:#000;border-radius:9px;margin:18px 0}
+    button,a.action{display:inline-block;background:#1d4ed8;color:white;border:0;padding:13px 20px;border-radius:8px;font-size:1rem;text-decoration:none;cursor:pointer}
+    button:disabled{opacity:.5;cursor:not-allowed}.small{font-size:.9rem;color:#64748b}#status{font-weight:600}#playerSection{display:none}
+  </style>
+</head>
+<body>
+  <main>
+    <section id="intro">
+      <h1>Video Study</h1>
+      <p>You will watch one short product video and then complete a questionnaire. Please watch the entire video before proceeding.</p>
+      <p>Please make sure your sound is on and that you are in a place where you can focus.</p>
+      <button id="startBtn" type="button">Start study</button>
+      <p class="small">Please do not refresh the page once you begin.</p>
+    </section>
+    <section id="playerSection">
+      <h1>Please watch the following video</h1>
+      <p>Please watch the video until it ends. You will then be redirected to the questionnaire.</p>
+      <video id="stimulus" playsinline preload="metadata" controlsList="nodownload noplaybackrate" disablePictureInPicture></video>
+      <p id="status" role="status">Preparing video…</p>
+      <button id="playBtn" type="button">Play video</button>
+      <p class="small">If playback does not start, click “Play video.” The questionnaire opens automatically after playback finishes.</p>
+      <p id="error" class="small" role="alert"></p>
+      <a id="surveyFallback" class="action" style="display:none" href="#">Open questionnaire</a>
+    </section>
+  </main>
+  <script>
+    // REPLACE ALL eight example paths/URLs before publishing your study.
+    // For Google Forms, use four pre-filled links from the SAME form, one per condition.
+    const CONDITIONS = [
+      {id:'A', video:'videos/tv-persuasion.mp4',   survey:'PASTE_FORM_A_PREFILLED_URL_HERE'},
+      {id:'B', video:'videos/tv-dissuasion.mp4',   survey:'PASTE_FORM_B_PREFILLED_URL_HERE'},
+      {id:'C', video:'videos/chair-persuasion.mp4',survey:'PASTE_FORM_C_PREFILLED_URL_HERE'},
+      {id:'D', video:'videos/chair-dissuasion.mp4',survey:'PASTE_FORM_D_PREFILLED_URL_HERE'}
+    ];
+    const STORAGE_KEY='video-study-condition-v1';
+    const intro=document.getElementById('intro');
+    const playerSection=document.getElementById('playerSection');
+    const video=document.getElementById('stimulus');
+    const status=document.getElementById('status');
+    const error=document.getElementById('error');
+    const playBtn=document.getElementById('playBtn');
+    const fallback=document.getElementById('surveyFallback');
+    let condition=null, finished=false;
+
+    function selectCondition(){
+      // The saved assignment survives refreshes in the same tab/session.
+      const saved=sessionStorage.getItem(STORAGE_KEY);
+      const existing=CONDITIONS.find(x=>x.id===saved);
+      if(existing) return existing;
+      const random=new Uint32Array(1);
+      crypto.getRandomValues(random);
+      const chosen=CONDITIONS[Math.floor(random[0]/(2**32)*CONDITIONS.length)];
+      sessionStorage.setItem(STORAGE_KEY,chosen.id);
+      return chosen;
+    }
+    function validConfig(c){return c&&c.video&&!c.video.includes('PASTE_')&&c.survey.startsWith('https://')&&!c.survey.includes('PASTE_');}
+    function finish(){
+      if(finished) return;
+      finished=true;
+      status.textContent='Video completed. Opening questionnaire…';
+      playBtn.style.display='none';
+      fallback.href=condition.survey;
+      fallback.style.display='inline-block';
+      window.location.assign(condition.survey);
+    }
+    document.getElementById('startBtn').addEventListener('click',async()=>{
+      condition=selectCondition();
+      intro.style.display='none'; playerSection.style.display='block';
+      if(!validConfig(condition)){
+        status.textContent='Setup incomplete';
+        error.textContent='Researcher: configure the four video files and four valid survey URLs in index.html first.';
+        playBtn.disabled=true;
+        return;
+      }
+      video.src=condition.video;
+      video.controls=false; // intentionally minimal controls; cannot prevent all bypasses
+      status.textContent='Please watch the full video.';
+      try { await video.play(); playBtn.style.display='none'; }
+      catch { status.textContent='Click Play video to begin.'; }
+    });
+    playBtn.addEventListener('click',async()=>{
+      try{await video.play();playBtn.style.display='none';status.textContent='Please watch the full video.';}
+      catch{error.textContent='Video playback failed. Check your browser or ask the researcher for help.';}
+    });
+    video.addEventListener('ended',finish);
+    video.addEventListener('error',()=>{status.textContent='Unable to load video';error.textContent='Please contact the researcher. Do not submit a questionnaire without watching the video.';playBtn.style.display='none';});
+    // Prevent accidental skipped segments via ordinary seeking, though client-side controls are not tamper-proof.
+    let furthest=0;
+    video.addEventListener('timeupdate',()=>{if(!video.seeking)furthest=Math.max(furthest,video.currentTime);});
+    video.addEventListener('seeking',()=>{if(video.currentTime>furthest+0.5)video.currentTime=furthest;});
+  </script>
+</body>
+</html>
