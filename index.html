@@ -48,11 +48,46 @@
     <p>This study website has not been fully configured. Please contact the researcher.</p>
     <p class="muted">Researcher: edit the four YouTube links and the four Google Forms links in <code>CONDITIONS</code> before sharing this site.</p>
   </section>
+  <section id="consent" class="hidden"> 
+<h1>Invitation to Participate</h1>
+<p><strong>Study Overview</strong></p>
+<p>You are invited to participate in an academic research study examining consumers' responses to product-related video advertisements.</p>
+<p><strong>Study Procedure</strong></p>
+<p>If you agree to participate, you will be randomly assigned to watch one short video lasting approximately 52 seconds. After watching the entire video, you will be directed to a questionnaire about your perceptions and evaluations.</p>
+<p>The total estimated participation time is approximately 6 minutes. [INSERT TOTAL TIME] minutes.</p>
+<p><strong>Voluntary Participation</strong></p>
+<p>Your participation is voluntary. You may choose not to participate or withdraw at any time. If you do not complete the video, you will not proceed to the questionnaire.</p>
+<p><strong>Potential Risks</strong></p>
+<p>This study involves viewing a product advertisement and answering survey questions. The anticipated risks are minimal. You may stop participating if you feel uncomfortable.</p>
+<p><strong>Data and Confidentiality</strong></p>
+<p>Your responses will be collected through Google Forms and used for academic research and statistical analysis. You will be asked to provide your Prolific ID to help match your survey responses with your Prolific submission. Individual survey responses will not be disclosed in published research results.</p>
+<p><strong>Compensation and Withdrawal</strong></p>
+<p>[INSERT APPROVED COMPENSATION AND WITHDRAWAL INFORMATION]</p>
 
-  <section id="consent" class="hidden">
-    <h1>Invitation to participate</h1>
-    <p>You are invited to participate in an academic study about short product-related videos. If you agree, you will be shown one video and then directed to a questionnaire. You may stop participating at any time.</p>
-    <div class="notice"><strong>Researcher action required:</strong> Replace this brief introduction with your institution-approved information and informed-consent wording, including study purpose, duration, risks, data use, contact details, and withdrawal information. Do so <em>before</em> recruiting participants.</div>
+<p><strong>Researcher Contact</strong></p>
+<p>If you have any questions about this study, please contact [RESEARCHER NAME / INSTITUTION] at [INSTITUTIONAL EMAIL].</p>
+
+<div style="margin: 24px 0;">
+  <label for="prolificId">
+    <strong>Prolific Participant ID</strong>
+  </label>
+
+  <p class="muted">
+    Please enter your Prolific ID before proceeding.
+    You will also be asked to provide the same ID
+    in the questionnaire.
+  </p>
+
+  <input
+    type="text"
+    id="prolificId"
+    placeholder="Enter your Prolific ID"
+    autocomplete="off"
+    spellcheck="false"
+    style="width:100%;padding:12px;border:1px solid #c8d4e2;border-radius:8px;font-size:16px;"
+  >
+</div>
+   
     <label class="check"><input id="agree" type="checkbox"><span>I have read the study information and voluntarily agree to participate.</span></label>
     <div class="actions">
       <button id="begin" class="primary" disabled>Agree and continue</button>
@@ -285,12 +320,38 @@ function loadPlayer() {
     }
   }
 }
-$('agree').addEventListener('change', e => { $('begin').disabled = !e.target.checked; });
+
+function updateBeginButton() {
+  const idEntered =
+    $('prolificId').value.trim().length > 0;
+
+  const hasAgreed = $('agree').checked;
+
+  $('begin').disabled = !(idEntered && hasAgreed);
+}
+
+$('prolificId').addEventListener(
+  'input',
+  updateBeginButton
+);
+
+$('agree').addEventListener(
+  'change',
+  updateBeginButton
+);
+
 $('begin').addEventListener('click', () => {
-  if (!$('agree').checked) return;
+  if (
+    !$('agree').checked ||
+    !$('prolificId').value.trim()
+  ) {
+    return;
+  }
+
   condition = chooseCondition();
   loadPlayer();
 });
+
 $('decline').addEventListener('click', () => show('declined'));
 $('play').addEventListener('click', () => {
   if (!videoReady || !player || finished) return;
