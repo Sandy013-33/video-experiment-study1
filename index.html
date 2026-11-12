@@ -6,7 +6,7 @@
   <meta name="robots" content="noindex,nofollow">
   <title>Research Video Study</title>
   <style>
-    :root { color-scheme: light; font-family: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; background:#f5f7fb; color:#162333; }
+    :root { color-scheme:light; font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; background:#f5f7fb; color:#162333; }
     * { box-sizing:border-box; }
     body { margin:0; min-height:100vh; display:grid; place-items:center; padding:26px 14px; }
     main { width:min(100%,760px); border:1px solid #e2e8f1; border-radius:18px; background:#fff; padding:clamp(22px,4vw,42px); box-shadow:0 12px 36px rgba(25,43,68,.07); }
@@ -18,22 +18,21 @@
     .notice { background:#f4f8fe; border:1px solid #dae8fc; padding:14px 16px; border-radius:10px; margin:16px 0; line-height:1.6; }
     .check { display:flex; gap:10px; align-items:flex-start; padding:12px 0; line-height:1.55; }
     .check input { margin-top:5px; transform:scale(1.2); }
+    .field { margin:20px 0 8px; }
+    .field label { display:block; margin-bottom:8px; font-weight:650; }
+    .field input { display:block; width:100%; font:inherit; padding:12px 14px; border:1px solid #b9c9dd; border-radius:9px; }
+    .field .muted { margin:8px 0 0; }
     .actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:20px; }
     button { font:inherit; font-weight:650; padding:12px 20px; border-radius:9px; cursor:pointer; border:1px solid #c8d4e2; background:#fff; color:#273b53; }
     button.primary { background:#195da4; color:white; border-color:#195da4; }
     button:disabled { opacity:.45; cursor:not-allowed; }
-    button:focus-visible, input:focus-visible { outline:3px solid #63a2ea; outline-offset:3px; }
+    button:focus-visible,input:focus-visible { outline:3px solid #63a2ea; outline-offset:3px; }
     .hidden { display:none !important; }
     .player-frame { position:relative; aspect-ratio:16/9; background:#0f172a; border-radius:12px; overflow:hidden; margin:18px 0 12px; }
-    #player, #player iframe { width:100%; height:100%; }
-    /* Full-screen expands the player frame without enabling YouTube's seek controls. */
-    .player-frame:fullscreen, .player-frame:-webkit-full-screen {
-      width:100vw; height:100vh; aspect-ratio:auto; margin:0; border-radius:0; background:#000;
-    }
-    .player-frame:fullscreen #player, .player-frame:fullscreen iframe,
-    .player-frame:-webkit-full-screen #player, .player-frame:-webkit-full-screen iframe {
-      width:100% !important; height:100% !important;
-    }
+    #player,#player iframe { width:100%; height:100%; }
+    /* Make video fullscreen without exposing YouTube seeking controls. */
+    .player-frame:fullscreen,.player-frame:-webkit-full-screen { width:100vw; height:100vh; aspect-ratio:auto; margin:0; border-radius:0; background:#000; }
+    .player-frame:fullscreen #player,.player-frame:fullscreen iframe,.player-frame:-webkit-full-screen #player,.player-frame:-webkit-full-screen iframe { width:100% !important; height:100% !important; }
     .progress-track { height:8px; background:#e4ebf4; border-radius:100px; overflow:hidden; margin-top:14px; }
     #progress { height:100%; background:#195da4; width:0%; transition:width .2s linear; }
     #status { min-height:1.5em; }
@@ -45,61 +44,40 @@
   <div class="eyebrow">Academic research</div>
   <section id="setup" class="hidden" aria-live="polite">
     <h1>Study setup is not complete</h1>
-    <p>This study website has not been fully configured. Please contact the researcher.</p>
-    <p class="muted">Researcher: edit the four YouTube links and the four Google Forms links in <code>CONDITIONS</code> before sharing this site.</p>
+    <p>Please contact the researcher. One or more study links have not been correctly configured.</p>
   </section>
-  <section id="consent" class="hidden"> 
-<h1>Invitation to Participate</h1>
-<p><strong>Study Overview</strong></p>
-<p>You are invited to participate in an academic research study examining consumers' responses to product-related video advertisements.</p>
-<p><strong>Study Procedure</strong></p>
-<p>If you agree to participate, you will be randomly assigned to watch one short video lasting approximately 52 seconds. After watching the entire video, you will be directed to a questionnaire about your perceptions and evaluations.</p>
-<p>The total estimated participation time is approximately 6 minutes. [INSERT TOTAL TIME] minutes.</p>
-<p><strong>Voluntary Participation</strong></p>
-<p>Your participation is voluntary. You may choose not to participate or withdraw at any time. If you do not complete the video, you will not proceed to the questionnaire.</p>
-<p><strong>Potential Risks</strong></p>
-<p>This study involves viewing a product advertisement and answering survey questions. The anticipated risks are minimal. You may stop participating if you feel uncomfortable.</p>
-<p><strong>Data and Confidentiality</strong></p>
-<p>Your responses will be collected through Google Forms and used for academic research and statistical analysis. You will be asked to provide your Prolific ID to help match your survey responses with your Prolific submission. Individual survey responses will not be disclosed in published research results.</p>
-<p><strong>Compensation and Withdrawal</strong></p>
-<p>[INSERT APPROVED COMPENSATION AND WITHDRAWAL INFORMATION]</p>
-
-<p><strong>Researcher Contact</strong></p>
-<p>If you have any questions about this study, please contact [RESEARCHER NAME / INSTITUTION] at [INSTITUTIONAL EMAIL].</p>
-
-<div style="margin: 24px 0;">
-  <label for="prolificId">
-    <strong>Prolific Participant ID</strong>
-  </label>
-
-  <p class="muted">
-    Please enter your Prolific ID before proceeding.
-    You will also be asked to provide the same ID
-    in the questionnaire.
-  </p>
-
-  <input
-    type="text"
-    id="prolificId"
-    placeholder="Enter your Prolific ID"
-    autocomplete="off"
-    spellcheck="false"
-    style="width:100%;padding:12px;border:1px solid #c8d4e2;border-radius:8px;font-size:16px;"
-  >
-</div>
-   
+  <section id="consent" class="hidden">
+    <h1>Invitation to Participate</h1>
+    <p><strong>Study Overview</strong></p>
+    <p>You are invited to participate in an academic research study examining consumers' responses to product-related video advertisements.</p>
+    <p><strong>Study Procedure</strong></p>
+    <p>If you agree to participate, you will be randomly assigned to watch one short video lasting approximately 52 seconds. After watching the entire video, you will be directed to a questionnaire about your perceptions and evaluations.</p>
+    <p>The total estimated participation time is [INSERT YOUR ACTUAL TOTAL TIME] minutes.</p>
+    <p><strong>Voluntary Participation</strong></p>
+    <p>Your participation is voluntary. You may choose not to participate or stop participating at any time. If you do not complete the video, you will not proceed to the questionnaire.</p>
+    <p><strong>Potential Risks</strong></p>
+    <p>The study involves viewing an advertisement and answering survey questions. The anticipated risks are minimal. You may stop participating if you feel uncomfortable.</p>
+    <p><strong>Data and Confidentiality</strong></p>
+    <p>Your responses will be collected through Google Forms and used for academic research and statistical analysis. Your Prolific Participant ID will be used to match your survey responses with your Prolific submission. Individual survey responses will not be disclosed in published research results. [INSERT ACTUAL DATA STORAGE, ACCESS AND RETENTION DETAILS]</p>
+    <p><strong>Compensation and Withdrawal</strong></p>
+    <p>[INSERT APPROVED PROLIFIC COMPENSATION AND WITHDRAWAL INFORMATION]</p>
+    <p><strong>Researcher Contact</strong></p>
+    <p>If you have any questions about this study, please contact [RESEARCHER / INSTITUTION] at [INSTITUTIONAL EMAIL].</p>
+    <div class="field">
+      <label for="prolificId">Prolific Participant ID</label>
+      <input id="prolificId" type="text" placeholder="Enter your Prolific ID" autocomplete="off" spellcheck="false" maxlength="120" aria-describedby="idHint" required>
+      <p id="idHint" class="muted">Enter your Prolific ID once. It will be filled in automatically on the questionnaire after the video.</p>
+    </div>
     <label class="check"><input id="agree" type="checkbox"><span>I have read the study information and voluntarily agree to participate.</span></label>
     <div class="actions">
-      <button id="begin" class="primary" disabled>Agree and continue</button>
-      <button id="decline">I do not agree</button>
+      <button id="begin" class="primary" type="button" disabled>Agree and continue</button>
+      <button id="decline" type="button">I do not agree</button>
     </div>
   </section>
-
   <section id="declined" class="hidden">
     <h1>Thank you</h1>
     <p>You have chosen not to take part. No questionnaire will be shown. You can close this page and return your study on the recruitment platform, if applicable.</p>
   </section>
-
   <section id="study" class="hidden">
     <h1>Please watch the entire video</h1>
     <p>Watch the following video from beginning to end before answering the questionnaire. The questionnaire will open automatically after verified continuous playback. If you pause, you can resume where you left off. Please keep this page visible while watching.</p>
@@ -113,13 +91,11 @@
     </div>
     <p class="small-note muted">To protect the study design, fast-forwarding and skipping are not permitted. Video playback may be interrupted by YouTube's own interface, advertising, privacy, or device restrictions.</p>
   </section>
-
   <section id="error" class="hidden" aria-live="polite">
     <h1>We could not load the video</h1>
     <p id="errorText">Check your internet connection and try again.</p>
     <button id="retry" class="primary">Reload the study</button>
   </section>
-
   <section id="done" class="hidden">
     <h1>Video finished</h1>
     <p>Opening the questionnaire now…</p>
@@ -127,34 +103,25 @@
 </main>
 <script>
 'use strict';
-
-// ============================================================
-// 研究者只需要修改下面 8 個網址（四部 YouTube + 四份 Google 表單）
-// YouTube 可貼整條 https://youtu.be/... 或 youtube.com/watch?v=...
-// Google 表單要貼「傳送給受測者填寫」的連結，而非編輯連結。
-// ============================================================
+// Four YouTube videos and four Google Forms are paired by condition.
+// The prolificField value is the exact Google Forms field key for each form.
 const CONDITIONS = [
-  { id: 'A', video: 'https://youtube.com/shorts/MH25dlH2KZM?feature=share', form: 'https://docs.google.com/forms/d/e/1FAIpQLScLQdubLqc9nuJucKb-n0Hpa1LIAhq6hxkYFEOAVZ_zYJEgVw/viewform?usp=header' }, // Persuasion × TV
-  { id: 'B', video: 'https://youtube.com/shorts/ZCzVafqgCxg?feature=share', form: 'https://docs.google.com/forms/d/e/1FAIpQLSfRs6nLV37Xzh0HfbjjL2lgmVrFPOmXBCwO-pMN7z9kAtM0rw/viewform?usp=header' }, // Dissuasion × TV
-  { id: 'C', video: 'https://youtube.com/shorts/qHxEA_y2_qA?feature=share', form: 'https://docs.google.com/forms/d/e/1FAIpQLScvoUV4oeqJ1MWqieCHK7YtWb4ZbhIzg0F_Lq0FRRVxjW636g/viewform?usp=header' }, // Persuasion × Massage Chair
-  { id: 'D', video: 'https://youtube.com/shorts/rkwDzMPD4fE?feature=share', form: 'https://docs.google.com/forms/d/e/1FAIpQLSdTBs5HB5MEwYmy-T0OgtJk8jRUjR6uFOBzweuIaTTlg6J7fg/viewform?usp=header' }  // Dissuasion × Massage Chair
+  {id:'A', video:'https://youtube.com/shorts/MH25dlH2KZM?feature=share', form:'https://docs.google.com/forms/d/e/1FAIpQLScLQdubLqc9nuJucKb-n0Hpa1LIAhq6hxkYFEOAVZ_zYJEgVw/viewform', prolificField:'entry.986291755'},
+  {id:'B', video:'https://youtube.com/shorts/ZCzVafqgCxg?feature=share', form:'https://docs.google.com/forms/d/e/1FAIpQLSfRs6nLV37Xzh0HfbjjL2lgmVrFPOmXBCwO-pMN7z9kAtM0rw/viewform', prolificField:'entry.1541485889'},
+  {id:'C', video:'https://youtube.com/shorts/qHxEA_y2_qA?feature=share', form:'https://docs.google.com/forms/d/e/1FAIpQLScvoUV4oeqJ1MWqieCHK7YtWb4ZbhIzg0F_Lq0FRRVxjW636g/viewform', prolificField:'entry.1524672398'},
+  {id:'D', video:'https://youtube.com/shorts/rkwDzMPD4fE?feature=share', form:'https://docs.google.com/forms/d/e/1FAIpQLSdTBs5HB5MEwYmy-T0OgtJk8jRUjR6uFOBzweuIaTTlg6J7fg/viewform', prolificField:'entry.497585966'}
 ];
 
-// 正式招募必須設為 false。測試時可改 true，並在網址後加 ?test=A 等。
+// Leave true while testing (?test=A, ?test=B, etc.). Change to false before recruiting.
 const TEST_MODE = true;
 
-// ============================================================
-// 以下是網站功能程式碼；一般不需要改動。
-// ============================================================
 const $ = id => document.getElementById(id);
 const sections = ['setup','consent','declined','study','error','done'];
 function show(id) { sections.forEach(s => $(s).classList.toggle('hidden', s !== id)); }
-
 function youtubeId(raw) {
   if (/^[A-Za-z0-9_-]{11}$/.test(raw)) return raw;
   try {
-    const url = new URL(raw);
-    const host = url.hostname.toLowerCase();
+    const url = new URL(raw), host = url.hostname.toLowerCase();
     if (host === 'youtu.be' || host === 'www.youtu.be') return url.pathname.split('/')[1] || '';
     if (host === 'youtube.com' || host === 'www.youtube.com' || host === 'm.youtube.com') {
       if (url.searchParams.has('v')) return url.searchParams.get('v') || '';
@@ -166,12 +133,13 @@ function youtubeId(raw) {
 function isValidForm(raw) {
   try {
     const u = new URL(raw);
-    if (u.protocol !== 'https:') return false;
-    if (u.hostname === 'forms.gle') return u.pathname.length > 1;
-    return /(^|\.)google\.com$/.test(u.hostname) && /^\/forms\/d\/(?:e\/)?[^/]+\/viewform$/.test(u.pathname);
+    return u.protocol === 'https:' && /(^|\.)google\.com$/.test(u.hostname) && /^\/forms\/d\/(?:e\/)?[^/]+\/viewform$/.test(u.pathname);
   } catch (_) { return false; }
 }
-function configured() { return CONDITIONS.length === 4 && CONDITIONS.every(c => /^[A-D]$/.test(c.id) && /^[A-Za-z0-9_-]{11}$/.test(youtubeId(c.video)) && isValidForm(c.form)); }
+function configured() {
+  return CONDITIONS.length === 4 &&
+    CONDITIONS.every((c, i) => c.id === 'ABCD'[i] && /^[A-Za-z0-9_-]{11}$/.test(youtubeId(c.video)) && isValidForm(c.form) && /^entry\.\d+$/.test(c.prolificField));
+}
 function randomIndex() {
   if (window.crypto && crypto.getRandomValues) {
     const a = new Uint32Array(1); crypto.getRandomValues(a); return a[0] % 4;
@@ -184,19 +152,18 @@ function chooseCondition() {
     const match = CONDITIONS.find(c => c.id === forced);
     if (match) return match;
   }
-  // Reopening in the same browser session keeps the same assignment.
   const key = 'video-study-assignment-v3';
   try {
     const prev = sessionStorage.getItem(key);
     const match = CONDITIONS.find(c => c.id === prev);
     if (match) return match;
-  } catch (_) { /* storage disabled */ }
+  } catch (_) { /* session storage unavailable */ }
   const selected = CONDITIONS[randomIndex()];
-  try { sessionStorage.setItem(key, selected.id); } catch (_) { /* storage disabled */ }
+  try { sessionStorage.setItem(key, selected.id); } catch (_) { /* session storage unavailable */ }
   return selected;
 }
-
 let condition = null;
+let prolificId = ''; // Used in memory only; not placed in local/session storage.
 let player = null;
 let ticker = null;
 let lastCheckedAt = 0;
@@ -205,7 +172,6 @@ let lastVideoDuration = 0;
 let videoReady = false;
 let finished = false;
 let correctingSeek = false;
-
 function updateProgress() {
   const fraction = lastVideoDuration ? Math.max(0, Math.min(1, verifiedTime / lastVideoDuration)) : 0;
   const pct = Math.floor(100 * fraction);
@@ -225,8 +191,7 @@ function getDuration() {
 function seekBack() {
   if (!player || correctingSeek) return;
   correctingSeek = true;
-  try { player.seekTo(Math.max(0, verifiedTime - .12), true); }
-  catch (_) { /* player may still be initializing */ }
+  try { player.seekTo(Math.max(0, verifiedTime - .12), true); } catch (_) {}
   $('status').textContent = 'Skipping is not available. Please continue from the last watched point.';
   setTimeout(() => { correctingSeek = false; lastCheckedAt = performance.now(); }, 350);
 }
@@ -239,24 +204,33 @@ function checkPlayback() {
     if (player.getPlayerState() !== YT.PlayerState.PLAYING) return;
     const current = Number(player.getCurrentTime()) || 0;
     getDuration();
-    // Allow a small margin for network and event timing; reject big forward jumps.
     const allowedAdvance = Math.min(2.25, elapsed + .85);
     if (current > verifiedTime + allowedAdvance) { seekBack(); return; }
     if (current < verifiedTime - .7) { seekBack(); return; }
     if (current > verifiedTime) { verifiedTime = current; updateProgress(); }
-  } catch (_) { /* brief player initialization glitches */ }
+  } catch (_) { /* player may still be initializing */ }
+}
+// This is the only change to the end-of-video redirect:
+// populate the condition-specific Google Forms field using URLSearchParams.
+function buildPrefilledFormUrl() {
+  if (!condition || !prolificId) throw new Error('Missing condition or Prolific ID');
+  const url = new URL(condition.form);
+  url.searchParams.set('usp', 'pp_url');
+  url.searchParams.set(condition.prolificField, prolificId);
+  return url.toString();
 }
 function openForm() {
   if (finished) return;
+  let formUrl;
+  try { formUrl = buildPrefilledFormUrl(); }
+  catch (_) { return videoError('Could not prepare the questionnaire. Please contact the researcher.'); }
   finished = true;
   clearInterval(ticker);
   show('done');
-  // Nothing in a client-only webpage can securely hide a public Google Forms URL.
-  window.location.assign(condition.form);
+  window.location.assign(formUrl);
 }
 function onEnd() {
   getDuration();
-  // END alone is insufficient; the video timeline must have progressed continuously.
   if (lastVideoDuration > 0 && verifiedTime >= lastVideoDuration - 1.6) {
     openForm();
   } else {
@@ -299,12 +273,12 @@ function loadPlayer() {
     if (!window.YT || !YT.Player) return videoError('YouTube player could not be initialized. Please reload the page.');
     player = new YT.Player('player', {
       videoId: youtubeId(condition.video),
-      playerVars: { controls: 0, disablekb: 1, playsinline: 1, rel: 0, fs: 0, iv_load_policy: 3, origin: location.origin },
+      playerVars: { controls:0, disablekb:1, playsinline:1, rel:0, fs:0, iv_load_policy:3, origin:location.origin },
       events: {
-        onReady: onPlayerReady,
-        onStateChange: onPlayerStateChange,
-        onError: () => videoError('This video cannot be played here. Please contact the researcher.'),
-        onAutoplayBlocked: () => { $('status').textContent = 'Please press “Play / Resume video” to start.'; }
+        onReady:onPlayerReady,
+        onStateChange:onPlayerStateChange,
+        onError:() => videoError('This video cannot be played here. Please contact the researcher.'),
+        onAutoplayBlocked:() => { $('status').textContent = 'Please press “Play / Resume video” to start.'; }
       }
     });
   };
@@ -320,38 +294,17 @@ function loadPlayer() {
     }
   }
 }
-
 function updateBeginButton() {
-  const idEntered =
-    $('prolificId').value.trim().length > 0;
-
-  const hasAgreed = $('agree').checked;
-
-  $('begin').disabled = !(idEntered && hasAgreed);
+  $('begin').disabled = !$('agree').checked || !$('prolificId').value.trim();
 }
-
-$('prolificId').addEventListener(
-  'input',
-  updateBeginButton
-);
-
-$('agree').addEventListener(
-  'change',
-  updateBeginButton
-);
-
+$('agree').addEventListener('change', updateBeginButton);
+$('prolificId').addEventListener('input', updateBeginButton);
 $('begin').addEventListener('click', () => {
-  if (
-    !$('agree').checked ||
-    !$('prolificId').value.trim()
-  ) {
-    return;
-  }
-
+  if (!$('agree').checked || !$('prolificId').value.trim()) return;
+  prolificId = $('prolificId').value.trim();
   condition = chooseCondition();
   loadPlayer();
 });
-
 $('decline').addEventListener('click', () => show('declined'));
 $('play').addEventListener('click', () => {
   if (!videoReady || !player || finished) return;
@@ -365,26 +318,17 @@ $('restart').addEventListener('click', () => {
   player.playVideo();
   $('status').textContent = 'Video restarted. Please watch all the way through.';
 });
-
-// Use the browser's Fullscreen API on the player container rather than
-// re-enabling YouTube's controls (which would also expose seeking).
 $('fullscreen').addEventListener('click', async () => {
   const frame = document.querySelector('.player-frame');
   try {
-    if (document.fullscreenElement) {
-      await document.exitFullscreen();
-    } else if (frame.requestFullscreen) {
-      await frame.requestFullscreen();
-    } else if (frame.webkitRequestFullscreen) {
-      frame.webkitRequestFullscreen();
-    } else {
-      $('status').textContent = 'Full screen is not supported in this browser. Please try a desktop browser.';
-    }
+    if (document.fullscreenElement) await document.exitFullscreen();
+    else if (frame.requestFullscreen) await frame.requestFullscreen();
+    else if (frame.webkitRequestFullscreen) frame.webkitRequestFullscreen();
+    else $('status').textContent = 'Full screen is not supported in this browser. Please try a desktop browser.';
   } catch (_) {
     $('status').textContent = 'Full screen could not be opened on this device. You can still watch the video here.';
   }
 });
-
 $('retry').addEventListener('click', () => location.reload());
 document.addEventListener('visibilitychange', () => {
   if (document.hidden && player && videoReady && !finished) {
